@@ -142,6 +142,7 @@ video {
   text-align: center;
   cursor: pointer;
   background-color: transparent;
+  touch-action: manipulation;
 }
 
 .info-panel {
@@ -169,6 +170,7 @@ video {
 
 .btn-container {
   background-color: transparent;
+  touch-action: manipulation;
 }
 
 .info,

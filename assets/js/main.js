@@ -151,9 +151,9 @@ const page = createEl("div", "page flex flex-cc-col", "", body);
 
 // --- Video
 const video = createEl("video", "", "", page);
-video.setAttribute("loop", "");
-video.setAttribute("muted", "");
-video.setAttribute("playsinline", "");
+video.setAttribute("loop", "true");
+video.setAttribute("muted", "true");
+video.setAttribute("playsinline", "true");
 // ---- Source Webm
 const sourceWebm = createEl("source", "", "", video);
 sourceWebm.setAttribute("type", "video/webm");
