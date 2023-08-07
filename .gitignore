@@ -1,0 +1,3 @@
+#ignoring all these files
+._*
+.env

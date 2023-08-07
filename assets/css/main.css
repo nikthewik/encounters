@@ -1,0 +1,185 @@
+/* VARIABLES */
+:root {
+  --clr-light: #ececec;
+  --clr-dark: #090909;
+  --clr-alarm: #ff0000;
+  --clr-alarm-t: rgba(255, 0, 0, 0.1);
+}
+
+/* CSS RESET */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* CSS UTILITY CLASSES */
+.none {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-cc {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-cc-col {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.num-font-size {
+  font-size: 7rem;
+}
+
+.text-font-size {
+  font-size: 2rem;
+}
+
+.title-font-size {
+  font-size: clamp(2.2rem, 5.8vw, 2.45rem);
+}
+
+.copyright-font-size {
+  font-size: clamp(0.6rem, 1.66vw, 0.75rem);
+}
+
+.normal-text {
+  color: var(--clr-light);
+}
+
+.normal-border {
+  border: 1px solid var(--clr-light);
+  box-shadow: 0 0 0.5rem var(--clr-light);
+}
+
+/* ALARM STYLE */
+.alarm-text {
+  color: var(--clr-alarm);
+}
+
+.alarm-border {
+  border: 1px solid var(--clr-alarm);
+  box-shadow: 0 0 0.5rem var(--clr-alarm);
+}
+
+.alarm-icon {
+  filter: brightness(0) saturate(100%);
+  filter: invert(26%) sepia(92%) saturate(7293%) hue-rotate(0deg)
+    brightness(107%) contrast(126%);
+}
+
+.alarm-filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background-color: var(--clr-alarm-t);
+}
+
+/* CSS BASE */
+body {
+  font-family: "Space Mono", monospace;
+  font-weight: 400;
+  background-color: var(--clr-dark);
+}
+
+.page {
+  position: relative;
+  height: 100vh;
+}
+
+video {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -10;
+}
+
+.title {
+  margin-bottom: 2rem;
+}
+
+.container {
+  width: min(85%, 39rem);
+  height: 450px;
+  gap: 2rem;
+  padding: 3rem;
+  border-radius: 3rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); /*For Safari*/
+  background-color: transparent;
+}
+
+.display {
+  text-align: center;
+  word-break: break-all;
+  overflow: hidden;
+  height: 166px;
+}
+
+.buttons {
+  width: 100%;
+  gap: 1rem;
+}
+
+.btn {
+  width: min(85%, 21.6rem);
+  border-radius: 1rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.info-panel {
+  justify-content: space-between;
+  align-items: center;
+  width: min(85%, 39rem);
+  height: min(14%, 1.2rem);
+  margin-top: 0.55rem;
+}
+
+.controls,
+.social {
+  gap: 0.7rem;
+}
+
+.controls {
+  justify-content: flex-start;
+  margin-left: 2.8rem;
+}
+
+.social {
+  justify-content: flex-end;
+  margin-right: 2.8rem;
+}
+
+.btn-container {
+  background-color: transparent;
+}
+
+.info,
+.volume,
+.github {
+  width: clamp(1rem, 2.5vw, 1.2rem);
+  cursor: pointer;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 1.2rem;
+}
