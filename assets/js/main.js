@@ -154,6 +154,7 @@ const video = createEl("video", "", "", page);
 video.setAttribute("loop", "true");
 video.setAttribute("muted", "true");
 video.setAttribute("playsinline", "true");
+video.setAttribute("poster", "/assets/img/poster.jpg");
 // ---- Source Webm
 const sourceWebm = createEl("source", "", "", video);
 sourceWebm.setAttribute("type", "video/webm");
@@ -264,7 +265,7 @@ const footer = createEl(
 
 // MEDIA QUERIES
 
-if (navigator.userAgent(/(iPod|iPhone|iPad)/)) {
+if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
   btnContainerVolume.classList.add("none");
   volume.classList.add("none");
 }
