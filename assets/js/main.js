@@ -33,6 +33,7 @@ function resetFontSize() {
 // To Set Color Interface To Red
 function setColorsToRed() {
   if (counter < 0) {
+    colorNotch.setAttribute("content", "#ff0000");
     title.classList.remove("normal-text");
     title.classList.add("alarm-text");
     container.classList.remove("normal-border");
@@ -61,6 +62,7 @@ function setColorsToRed() {
 
 // To Reset Color Interface To Normal
 function resetColors() {
+  colorNotch.setAttribute("content", "#ececec");
   title.classList.remove("alarm-text");
   title.classList.add("normal-text");
   container.classList.remove("alarm-border");
@@ -142,6 +144,9 @@ function resetMedia() {
 // ELEMENTS
 
 // Elements obtained
+// Meta Tag For The Color Of The Notch On iPhone
+let colorNotch = document.querySelector('meta[name="theme-color"]');
+
 // - Body
 const body = document.querySelector("body");
 
