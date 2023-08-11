@@ -91,7 +91,7 @@
 body {
   font-family: "Space Mono", monospace;
   font-weight: 400;
-  background-color: var(--clr-dark);
+  background-color: var(--clr-light);
   /* To avoid overlaps on mobile landscape devices */
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -118,7 +118,6 @@ video {
 
 .container {
   width: min(85%, 39rem);
-  height: 450px;
   gap: 2rem;
   padding: 3rem;
   border-radius: 3rem;
@@ -152,7 +151,7 @@ video {
   justify-content: space-between;
   align-items: center;
   width: min(85%, 39rem);
-  height: min(14%, 1.2rem);
+  height: 1.4rem;
   margin-top: 0.55rem;
 }
 
@@ -179,7 +178,7 @@ video {
 .info,
 .volume,
 .github {
-  width: clamp(1rem, 2.5vw, 1.2rem);
+  width: clamp(1.2rem, 3vw, 1.4rem);
   cursor: pointer;
 }
 

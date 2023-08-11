@@ -231,12 +231,22 @@ const infoPanel = createEl("div", "info-panel flex", "", page);
 // ---- Controls
 const controls = createEl("div", "controls flex flex-cc", "", infoPanel);
 // ----- Button For Accessibility
-const btnContainerInfo = createEl("button", "btn-container", "", controls);
+const btnContainerInfo = createEl(
+  "button",
+  "btn-container flex flex-cc",
+  "",
+  controls
+);
 // ------ Info
 const info = createEl("img", "info", "", btnContainerInfo);
 info.setAttribute("src", "/assets/img/info.png");
 // ----- Button For Accessibility
-const btnContainerVolume = createEl("button", "btn-container", "", controls);
+const btnContainerVolume = createEl(
+  "button",
+  "btn-container flex flex-cc",
+  "",
+  controls
+);
 // ------ Volume
 const volume = createEl("img", "volume", "", btnContainerVolume);
 volume.setAttribute("src", "/assets/img/volume-on.png");
