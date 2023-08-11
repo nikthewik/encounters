@@ -91,7 +91,15 @@
 body {
   font-family: "Space Mono", monospace;
   font-weight: 400;
-  background-color: var(--clr-dark);
+  background: url(/assets/img/poster.jpg) no-repeat center center fixed;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   /* To avoid overlaps on mobile landscape devices */
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -100,6 +108,7 @@ body {
 .page {
   position: relative;
   height: 100vh;
+  object-fit: cover;
 }
 
 video {
