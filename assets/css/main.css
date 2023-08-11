@@ -100,6 +100,7 @@ body {
 .page {
   position: relative;
   height: 100vh;
+  object-fit: cover;
 }
 
 video {
