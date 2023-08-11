@@ -101,9 +101,6 @@ body {
   font-family: "Space Mono", monospace;
   font-weight: 400;
   background-color: var(--clr-light);
-  /* To avoid overlaps on mobile landscape devices
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left); */
 }
 
 .page {
@@ -207,3 +204,5 @@ footer {
     height: 100vw;
   }
 }
+
+/*////////////////////////////////////////////////////////////////////////////*/
