@@ -279,7 +279,7 @@ const footer = createEl(
 ////////////////////////////////////////////////////////////////////////////////
 
 // MEDIA QUERIES
-
+// To Hide Volume Btn On Apple Mobile Devices
 if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
   btnContainerVolume.classList.add("none");
   volume.classList.add("none");

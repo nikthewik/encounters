@@ -1,3 +1,5 @@
+/*////////////////////////////////////////////////////////////////////////////*/
+
 /* VARIABLES */
 :root {
   --clr-light: #ececec;
@@ -5,6 +7,8 @@
   --clr-alarm: #ff0000;
   --clr-alarm-t: rgba(255, 0, 0, 0.1);
 }
+
+/*////////////////////////////////////////////////////////////////////////////*/
 
 /* CSS RESET */
 *,
@@ -15,6 +19,7 @@
   padding: 0;
   border: 0;
 }
+/*////////////////////////////////////////////////////////////////////////////*/
 
 /* CSS UTILITY CLASSES */
 .none {
@@ -61,6 +66,8 @@
   box-shadow: 0 0 0.5rem var(--clr-light);
 }
 
+/*////////////////////////////////////////////////////////////////////////////*/
+
 /* ALARM STYLE */
 .alarm-text {
   color: var(--clr-alarm);
@@ -87,6 +94,8 @@
   background-color: var(--clr-alarm-t);
 }
 
+/*////////////////////////////////////////////////////////////////////////////*/
+
 /* CSS BASE */
 body {
   font-family: "Space Mono", monospace;
@@ -99,8 +108,8 @@ body {
 
 .page {
   position: relative;
+  width: 100vw;
   height: 100vh;
-  object-fit: cover;
 }
 
 video {
@@ -187,4 +196,14 @@ footer {
   position: absolute;
   bottom: 0;
   margin-bottom: 1.2rem;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+
+/* MEDIA QUERIES */
+/* For Landscape Mode On Mobile */
+@media all and (max-width: 1100px) and (orientation: landscape) {
+  .page {
+    height: 100vw;
+  }
 }
