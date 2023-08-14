@@ -50,7 +50,7 @@
 }
 
 .quest-font-size {
-  font-size: clamp(1rem, 2vw, 2rem);
+  font-size: clamp(1rem, 3.3vw, 1.5rem);
 }
 
 .title-font-size {
