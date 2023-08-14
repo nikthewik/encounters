@@ -49,6 +49,10 @@
   font-size: 2rem;
 }
 
+.quest-font-size {
+  font-size: clamp(1rem, 2vw, 2rem);
+}
+
 .title-font-size {
   font-size: clamp(2.2rem, 5.8vw, 2.45rem);
 }
@@ -135,7 +139,6 @@ video {
 
 .display {
   text-align: center;
-  word-break: break-all;
   overflow: hidden;
   height: 166px;
 }

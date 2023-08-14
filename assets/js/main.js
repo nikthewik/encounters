@@ -21,12 +21,12 @@ function createEl(htmlTag, cssClass, text, parentEl) {
 // To Control The Font-size When There Is Text Instead Of Numbers On Display
 function setFontSize() {
   display.classList.remove("num-font-size");
-  display.classList.add("text-font-size");
+  display.classList.add("quest-font-size");
 }
 
 // To Reset Font-size To Initial Value
 function resetFontSize() {
-  display.classList.remove("text-font-size");
+  display.classList.remove("quest-font-size");
   display.classList.add("num-font-size");
 }
 
@@ -290,9 +290,65 @@ if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
 // VARIABLES
 
 let counter = 0;
-let encounters = 0;
 let gameOver = false;
+let possibility;
+let questReward;
 
+const positiveQuests = [
+  `You find an ancient treasure on the planet Makhaar. Move forward in your adventure by ${getQuestReward()} light years! 💎`,
+  `You eat the best icecream of the entire Cosmo on the planet Paradice. Move forward in your adventure by ${getQuestReward()} light years! 🍧`,
+  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by ${getQuestReward()} light years! 🏴‍☠️`,
+  `You intercept a mysterious alien trasmission asking for help. Move forward in your adventure by ${getQuestReward()} light years! 👽`,
+  `You meet Lyssa Grey Glove: "Hide over here! The Dark Army is coming!". Move forward in your adventure by ${getQuestReward()} light years!  🥷🏻`,
+  `You meet Tarta, the Omniscient: "I'll tell you a secret... but slowly!". Move forward in your adventure by ${getQuestReward()} light years! 🐢`,
+  `You meet De-Lo, Dead Lotus: "Ahahah you’re strange, boy! All right, I’ll help you." Move forward in your adventure by ${getQuestReward()} light years! 🪷`,
+];
+const negativeQuests = [
+  `You encounter a massive gravitational anomaly that pulls your ship off course. Move backwards by ${getQuestReward()} light years! ⚫️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by ${getQuestReward()} light years! ⛽️`,
+];
+
+function getRandomQuest(questArray) {
+  const randomIndex = Math.floor(Math.random() * questArray.length);
+  return questArray[randomIndex];
+}
+
+function getQuestReward() {
+  questReward =
+    Math.floor(Math.random() * 10 + 1) + Math.floor(Math.random() * 5 + 11);
+  return questReward;
+}
+
+function setGameOver() {
+  setFontSize();
+  display.innerHTML = counter > 0 ? "You Win!" : "You Lost!";
+  gameOver = true;
+}
+
+function manageQuestPossibility() {
+  possibility = Math.floor(Math.random() * 10 + 1);
+  if (possibility > 0 && possibility <= 8) {
+    resetFontSize();
+    display.innerHTML = counter;
+  } else if (possibility === 9) {
+    setFontSize();
+    display.innerHTML = getRandomQuest(positiveQuests);
+    counter += questReward;
+  } else if (possibility === 10) {
+    setFontSize();
+    display.innerHTML = getRandomQuest(negativeQuests);
+    counter -= questReward;
+  }
+}
+
+function resetGame() {
+  resetMedia();
+  resetFontSize();
+  resetColors();
+  gameOver = false;
+  counter = 0;
+  display.innerHTML = counter;
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 // EVENTS
@@ -300,29 +356,11 @@ let gameOver = false;
 plusBtn.addEventListener("click", () => {
   if (gameOver === false) {
     if (counter > -99 && counter < 99) {
+      playMedia();
       counter++;
-      display.innerHTML = counter;
-      playMedia();
+      manageQuestPossibility();
     } else {
-      setFontSize();
-      display.innerHTML = "You Win!";
-      gameOver = true;
-    }
-    setPlayback();
-    setColorsToRed();
-  }
-});
-
-minusBtn.addEventListener("click", () => {
-  if (gameOver === false) {
-    if (counter > -99 && counter < 99) {
-      counter--;
-      display.innerHTML = counter;
-      playMedia();
-    } else {
-      setFontSize();
-      display.innerHTML = "Game Over!";
-      gameOver = true;
+      setGameOver();
     }
     setPlayback();
     setColorsToRed();
@@ -330,12 +368,21 @@ minusBtn.addEventListener("click", () => {
 });
 
 resetBtn.addEventListener("click", () => {
-  gameOver = false;
-  counter = 0;
-  display.innerHTML = counter;
-  resetMedia();
-  resetColors();
-  resetFontSize();
+  resetGame();
+});
+
+minusBtn.addEventListener("click", () => {
+  if (gameOver === false) {
+    if (counter > -99 && counter < 99) {
+      playMedia();
+      counter--;
+      manageQuestPossibility();
+    } else {
+      setGameOver();
+    }
+    setPlayback();
+    setColorsToRed();
+  }
 });
 
 btnContainerVolume.addEventListener("click", () => {
