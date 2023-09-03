@@ -170,21 +170,62 @@ let isMinusBtnPressed = false;
 let isPlusBtnBlocked = false;
 let isMinusBtnBlocked = false;
 let possibility;
+let randomIndex;
 let questReward;
 let questCounter;
 
 const positiveQuests = [
-  `You find an ancient treasure on the planet Makhaar. Move forward in your adventure by ${getQuestReward()} light years! 💎`,
-  `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by ${getQuestReward()} light years! 🍧`,
-  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by ${getQuestReward()} light years! 🏴‍☠️`,
-  `You intercept a mysterious alien trasmission asking for help. Move forward in your adventure by ${getQuestReward()} light years! 👽`,
-  `You meet Lyssa Grey Glove: "Hide over here! The Dark Army is coming!". Move forward in your adventure by ${getQuestReward()} light years!  🥷🏻`,
-  `You meet Tarta, the Omniscient: "I'll tell you a secret... but slowly!". Move forward in your adventure by ${getQuestReward()} light years! 🐢`,
-  `You meet De-Lo, Dead Lotus: "Ahahah you’re strange, boy! All right, I’ll help you." Move forward in your adventure by ${getQuestReward()} light years! 🪷`,
+  // 5 Points Quests
+  `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by 5 light years! 🍧`,
+  `You find an ancient treasure on the planet Makhaar. Move forward in your adventure by 5 light years! 💍`,
+  `You intercept a mysterious alien trasmission asking for help. Move forward in your adventure by 5 light years! 👽`,
+  `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by 5 light years! 🍧`,
+  `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by 5 light years! 🍧`,
+  `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by 5 light years! 🍧`,
+  `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by 5 light years! 🍧`,
+  // 7 Points Quests
+  `You meet Lyssa Grey Glove: "Soon, hide over here! The Dark Army is coming!". Move forward in your adventure by 7 light years!  🥷🏻`,
+  `You meet Tarta, the Omniscient: "I'll tell you a secret... but slowly!". Move forward in your adventure by 7 light years! 🐢`,
+  `You meet De-Lo, Dead Lotus: "Ahahah you’re a strange guy! All right, I’ll help you." Move forward in your adventure by 7 light years! 🪷`,
+  `You find an ancient treasure on the planet Makhaar. Move forward in your adventure by 7 light years! 💎`,
+  `You find an ancient treasure on the planet Makhaar. Move forward in your adventure by 7 light years! 💎`,
+  `You find an ancient treasure on the planet Makhaar. Move forward in your adventure by 7 light years! 💎`,
+  // 10 Points Quests
+  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by 10 light years! 🏴‍☠️`,
+  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by 10 light years! 🏴‍☠️`,
+  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by 10 light years! 🏴‍☠️`,
+  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by 10 light years! 🏴‍☠️`,
+  `You join the Space Pirate Brigade. You really feel free. Move forward in your adventure by 10 light years! 🏴‍☠️`,
+  // 30 Points Teleporting Quests
+  `You discover a peculiar anomaly that creates a quantum link with a distant star. Move INSTANTLY forward by 30 light years! 🌟`,
+  `You discover a peculiar anomaly that creates a quantum link with a distant star. Move INSTANTLY forward by 30 light years! 🌟`,
 ];
+
 const negativeQuests = [
-  `You encounter a massive gravitational anomaly that pulls your ship off course. Move backwards by ${getQuestReward()} light years! ⚫️`,
-  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by ${getQuestReward()} light years! ⛽️`,
+  // 5 Points Quests
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
+  // 7 Points Quests
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 7 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 7 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 7 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 7 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 7 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 7 light years! ⛽️`,
+  // 10 Points Quests
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 10 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 10 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 10 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 10 light years! ⛽️`,
+  `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 10 light years! ⛽️`,
+  // 30 Points Teleporting Quests
+  `You encounter a super massive gravitational anomaly that pulls your ship off course. Move INSTANTLY backwards by 30 light years! ⚫️`,
+  `You encounter a super massive gravitational anomaly that pulls your ship off course. Move INSTANTLY backwards by 30 light years! ⚫️`,
 ];
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,7 +259,10 @@ function playGame() {
 
 function setGameOver() {
   setFontSize();
-  display.innerHTML = counter > 0 ? "You Win!" : "You Lost!";
+  display.innerHTML =
+    counter > 0
+      ? "Life brought you here for the very last encounter: you find yourself thanks to an existence full of experiences. YOU WIN! 🎉"
+      : "The Dark Army captures you and sells you as a slave on the planet Kragas. You are destined to die in chains. YOU LOST! 💀";
   gameOver = true;
 }
 
@@ -227,6 +271,7 @@ function resetGame() {
   resetFontSize();
   resetColors();
   initGame();
+  questReward = 0;
   questCounter = 0;
   setQuestCounter();
 }
@@ -354,17 +399,17 @@ function resetColors() {
 
 function manageQuestPossibility() {
   possibility = Math.floor(Math.random() * 100 + 1);
-  console.log(possibility);
-  if (possibility > 0 && possibility <= 93) {
+  console.log(`Possibility: ${possibility}`);
+  if (possibility > 0 && possibility <= 80) {
     resetFontSize();
     display.innerHTML = counter;
-  } else if (possibility >= 94 && possibility <= 98) {
+  } else if (possibility >= 81 && possibility <= 90) {
     setFontSize();
     display.innerHTML = getRandomQuest(positiveQuests);
     isMinusBtnBlocked = true;
     isPlusBtnBlocked = false;
     questCounter = questReward;
-  } else if (possibility >= 99 && possibility <= 100) {
+  } else if (possibility >= 91 && possibility <= 100) {
     setFontSize();
     display.innerHTML = getRandomQuest(negativeQuests);
     isPlusBtnBlocked = true;
@@ -374,13 +419,29 @@ function manageQuestPossibility() {
 }
 
 function getRandomQuest(questArray) {
-  const randomIndex = Math.floor(Math.random() * questArray.length);
+  randomIndex = Math.floor(Math.random() * questArray.length);
+  getQuestReward();
+
+  console.log(`Random Index: ${randomIndex}`);
   return questArray[randomIndex];
 }
 
 function getQuestReward() {
-  questReward =
-    Math.floor(Math.random() * 10 + 1) + Math.floor(Math.random() * 5 + 11);
+  if (randomIndex >= 0 && randomIndex <= 6) {
+    questReward = 5;
+  } else if (randomIndex >= 7 && randomIndex <= 12) {
+    questReward = 7;
+  } else if (randomIndex >= 13 && randomIndex <= 17) {
+    questReward = 10;
+  } else if (randomIndex >= 18 && randomIndex <= 19) {
+    questReward = 1;
+    if (possibility > 89) {
+      counter -= 30;
+    } else {
+      counter += 30;
+    }
+  }
+  console.log(`Quest Reward: ${questReward}`);
   return questReward;
 }
 
