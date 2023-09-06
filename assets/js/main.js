@@ -142,6 +142,26 @@ const cap = createEl(
   social
 );
 
+// ---- Record Container
+const recordContainer = createEl("div", "flex flex-cc", "", infoPanel);
+// ----- Record Image
+const recordImg = createEl("img", "record-img", "", recordContainer);
+recordImg.setAttribute("src", "/assets/img/record.png");
+// ----- Record Text
+const recordText = createEl(
+  "p",
+  "copyright-font-size normal-text",
+  ":",
+  recordContainer
+);
+// ----- Record
+const record = createEl(
+  "div",
+  "record record-font-size normal-text",
+  "0",
+  recordContainer
+);
+
 // --- Footer
 const footer = createEl(
   "footer",
@@ -165,14 +185,20 @@ if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
 
 let counter;
 let gameOver;
-let isPlusBtnPressed = false;
-let isMinusBtnPressed = false;
-let isPlusBtnBlocked = false;
-let isMinusBtnBlocked = false;
+
+let isPlusBtnPressed;
+let isMinusBtnPressed;
+let isPlusBtnBlocked;
+let isMinusBtnBlocked;
+let isPossibilityBlocked;
+
 let possibility;
 let randomIndex;
 let questReward;
 let questCounter;
+
+let totalEncounters;
+let recordEncounters = 0;
 
 const positiveQuests = [
   // 5 Points Quests
@@ -232,50 +258,145 @@ const negativeQuests = [
 
 // FUNCTIONS
 
+// GAME ENGINE
 function initGame() {
   gameOver = false;
+  isPlusBtnPressed = false;
+  isMinusBtnPressed = false;
+  isPlusBtnBlocked = false;
+  isMinusBtnBlocked = false;
+  isPossibilityBlocked = false;
+
+  possibility = 0;
+  randomIndex = 0;
+  questReward = 0;
+  questCounter = 0;
+
   counter = 0;
   display.innerHTML = counter;
+
+  totalEncounters = 0;
+  title.innerHTML = `enCounters`;
 }
 
 initGame();
 
 function playGame() {
-  if (gameOver === false && counter > -99 && counter < 99) {
+  if (gameOver === false) {
     playMedia();
-
     if (isPlusBtnPressed === true) {
       counter++;
     } else if (isMinusBtnPressed === true) {
       counter--;
     }
-    manageQuestPossibility();
-  } else {
-    setGameOver();
+    if (counter <= -100 || counter >= 100) {
+      setGameOver();
+    } else {
+      manageQuestPossibility();
+    }
+    setPlayback();
+    setColorsToRed();
   }
-  setPlayback();
-  setColorsToRed();
 }
 
+function manageQuestPossibility() {
+  if (isPossibilityBlocked === true) {
+    possibility = 1;
+  } else {
+    possibility = Math.floor(Math.random() * 100 + 1);
+  }
+
+  console.log(`Possibility: ${possibility}`);
+
+  if (possibility > 0 && possibility <= 80) {
+    resetFontSize();
+    display.innerHTML = counter;
+  } else if (possibility >= 81 && possibility <= 90) {
+    setFontSize();
+    display.innerHTML = getRandomQuest(positiveQuests);
+    isMinusBtnBlocked = true;
+    isPlusBtnBlocked = false;
+    questCounter = questReward;
+  } else if (possibility >= 91 && possibility <= 100) {
+    setFontSize();
+    display.innerHTML = getRandomQuest(negativeQuests);
+    isPlusBtnBlocked = true;
+    isMinusBtnBlocked = false;
+    questCounter = questReward;
+  }
+
+  setQuestCounter();
+
+  if (possibility > 80) {
+    totalEncounters++;
+    title.innerHTML = `enCounters = ${totalEncounters}`;
+  }
+}
+
+function getRandomQuest(questArray) {
+  randomIndex = Math.floor(Math.random() * questArray.length);
+  getQuestReward();
+
+  console.log(`Random Index: ${randomIndex}`);
+  return questArray[randomIndex];
+}
+
+function getQuestReward() {
+  if (randomIndex >= 0 && randomIndex <= 6) {
+    questReward = 5;
+  } else if (randomIndex >= 7 && randomIndex <= 12) {
+    questReward = 7;
+  } else if (randomIndex >= 13 && randomIndex <= 17) {
+    questReward = 10;
+  } else if (randomIndex >= 18 && randomIndex <= 19) {
+    questReward = 1;
+    if (possibility > 90) {
+      counter -= 30;
+    } else {
+      counter += 30;
+    }
+  }
+  console.log(`Quest Reward: ${questReward}`);
+  return questReward;
+}
+
+function setQuestCounter() {
+  if (questCounter === 0) {
+    isPlusBtnBlocked = false;
+    isMinusBtnBlocked = false;
+    isPossibilityBlocked = false;
+  } else {
+    questCounter--;
+    isPossibilityBlocked = true;
+  }
+}
+
+// GAME OVER
 function setGameOver() {
   setFontSize();
-  display.innerHTML =
-    counter > 0
-      ? "Life brought you here for the very last encounter: you find yourself thanks to an existence full of experiences. YOU WIN! 🎉"
-      : "The Dark Army captures you and sells you as a slave on the planet Kragas. You are destined to die in chains. YOU LOST! 💀";
+  title.innerHTML = `enCounters: ${totalEncounters + 1}`;
+  if (counter > 0) {
+    display.innerHTML = `After ${totalEncounters} encounters, life brought you here for the best one: you find yourself thanks to an existence full of experiences. YOU WIN! 🎉`;
+    if (recordEncounters < totalEncounters + 1) {
+      recordEncounters = totalEncounters + 1;
+      record.innerHTML = recordEncounters;
+    }
+  } else {
+    display.innerHTML =
+      "The Dark Army captures you and sells you as a slave on the planet Kragas. You are destined to die in chains. YOU LOST! 💀";
+  }
   gameOver = true;
 }
 
+// RESET GAME
 function resetGame() {
   resetMedia();
   resetFontSize();
   resetColors();
   initGame();
-  questReward = 0;
-  questCounter = 0;
-  setQuestCounter();
 }
 
+// MEDIA
 // To Play The Audio And The Background Video
 function playMedia() {
   if (video.paused && audio.paused) {
@@ -329,6 +450,7 @@ function unmuteAudio() {
   volume.setAttribute("src", "/assets/img/volume-on.png");
 }
 
+// FONT
 // To Control The Font-size When There Is Text Instead Of Numbers On Display
 function setFontSize() {
   display.classList.remove("num-font-size");
@@ -341,6 +463,7 @@ function resetFontSize() {
   display.classList.add("num-font-size");
 }
 
+// RED INTERFACE
 // To Set Color Interface To Red
 function setColorsToRed() {
   if (counter < 0) {
@@ -362,6 +485,11 @@ function setColorsToRed() {
     github.classList.add("alarm-icon");
     cap.classList.remove("normal-text");
     cap.classList.add("alarm-text");
+    recordImg.classList.add("alarm-icon");
+    recordText.classList.remove("normal-text");
+    recordText.classList.add("alarm-text");
+    record.classList.remove("normal-text");
+    record.classList.add("alarm-text");
     footer.classList.remove("normal-text");
     footer.classList.add("alarm-text");
     alarmFilter.classList.remove("none");
@@ -391,67 +519,15 @@ function resetColors() {
   github.classList.remove("alarm-icon");
   cap.classList.remove("alarm-text");
   cap.classList.add("normal-text");
+  recordImg.classList.remove("alarm-icon");
+  recordText.classList.remove("alarm-text");
+  recordText.classList.add("normal-text");
+  record.classList.remove("alarm-text");
+  record.classList.add("normal-text");
   footer.classList.remove("alarm-text");
   footer.classList.add("normal-text");
   alarmFilter.classList.remove("alarm-filter");
   alarmFilter.classList.add("none");
-}
-
-function manageQuestPossibility() {
-  possibility = Math.floor(Math.random() * 100 + 1);
-  console.log(`Possibility: ${possibility}`);
-  if (possibility > 0 && possibility <= 80) {
-    resetFontSize();
-    display.innerHTML = counter;
-  } else if (possibility >= 81 && possibility <= 90) {
-    setFontSize();
-    display.innerHTML = getRandomQuest(positiveQuests);
-    isMinusBtnBlocked = true;
-    isPlusBtnBlocked = false;
-    questCounter = questReward;
-  } else if (possibility >= 91 && possibility <= 100) {
-    setFontSize();
-    display.innerHTML = getRandomQuest(negativeQuests);
-    isPlusBtnBlocked = true;
-    isMinusBtnBlocked = false;
-    questCounter = questReward;
-  }
-}
-
-function getRandomQuest(questArray) {
-  randomIndex = Math.floor(Math.random() * questArray.length);
-  getQuestReward();
-
-  console.log(`Random Index: ${randomIndex}`);
-  return questArray[randomIndex];
-}
-
-function getQuestReward() {
-  if (randomIndex >= 0 && randomIndex <= 6) {
-    questReward = 5;
-  } else if (randomIndex >= 7 && randomIndex <= 12) {
-    questReward = 7;
-  } else if (randomIndex >= 13 && randomIndex <= 17) {
-    questReward = 10;
-  } else if (randomIndex >= 18 && randomIndex <= 19) {
-    questReward = 1;
-    if (possibility > 89) {
-      counter -= 30;
-    } else {
-      counter += 30;
-    }
-  }
-  console.log(`Quest Reward: ${questReward}`);
-  return questReward;
-}
-
-function setQuestCounter() {
-  if (questCounter === 0) {
-    isPlusBtnBlocked = false;
-    isMinusBtnBlocked = false;
-  } else {
-    questCounter--;
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -462,7 +538,6 @@ plusBtn.addEventListener("click", () => {
   if (isPlusBtnBlocked === false) {
     isPlusBtnPressed = true;
     playGame();
-    setQuestCounter();
     isPlusBtnPressed = false;
   }
 });
@@ -475,7 +550,6 @@ minusBtn.addEventListener("click", () => {
   if (isMinusBtnBlocked === false) {
     isMinusBtnPressed = true;
     playGame();
-    setQuestCounter();
     isMinusBtnPressed = false;
   }
 });

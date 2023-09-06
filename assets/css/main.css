@@ -61,6 +61,10 @@
   font-size: clamp(0.6rem, 1.66vw, 0.75rem);
 }
 
+.record-font-size {
+  font-size: clamp(0.94rem, 3vw, 1.25rem);
+}
+
 .normal-text {
   color: var(--clr-light);
 }
@@ -160,7 +164,7 @@ video {
 .info-panel {
   justify-content: space-between;
   align-items: center;
-  width: min(85%, 39rem);
+  width: min(calc(85% - 5.6rem), calc(39rem - 5.6rem));
   height: 1.4rem;
   margin-top: 0.55rem;
 }
@@ -172,12 +176,10 @@ video {
 
 .controls {
   justify-content: flex-start;
-  margin-left: 2.8rem;
 }
 
 .social {
   justify-content: flex-end;
-  margin-right: 2.8rem;
 }
 
 .btn-container {
@@ -190,6 +192,14 @@ video {
 .github {
   width: clamp(1.2rem, 3vw, 1.4rem);
   cursor: pointer;
+}
+
+.record-img {
+  width: clamp(1.2rem, 3vw, 1.4rem);
+}
+
+.record {
+  margin-left: 0.6rem;
 }
 
 footer {
