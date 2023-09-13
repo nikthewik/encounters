@@ -46,12 +46,19 @@ sourceMp4.setAttribute("src", "/assets/media/bg-video.mp4");
 // --- Alarm Filter
 const alarmFilter = createEl("div", "none", "", page);
 
-// --- Audio
-const audio = createEl("audio", "", "", page);
-audio.setAttribute("loop", "");
-audio.setAttribute("type", "audio/mp3");
-audio.setAttribute("src", "/assets/media/encounters.mp3");
-audio.volume = 1;
+// --- Audio Song
+const audioSong = createEl("audio", "", "", page);
+audioSong.setAttribute("loop", "");
+audioSong.setAttribute("type", "audio/mp3");
+audioSong.setAttribute("src", "/assets/media/encounters.mp3");
+audioSong.volume = 1;
+
+// --- Audio Alarm
+const audioAlarm = createEl("audio", "", "", page);
+audioAlarm.setAttribute("loop", "");
+audioAlarm.setAttribute("type", "audio/mp3");
+audioAlarm.setAttribute("src", "/assets/media/alarm.mp3");
+audioAlarm.volume = 1;
 
 // --- Title
 const title = createEl(
@@ -99,6 +106,14 @@ const minusBtn = createEl(
   buttons
 );
 
+// ----- Mini Display For Quest Countdown
+const miniDisplay = createEl(
+  "div",
+  "mini-display normal-text record-font-size",
+  "0",
+  buttons
+);
+
 // --- Info Panel
 const infoPanel = createEl("div", "info-panel flex", "", page);
 
@@ -114,6 +129,7 @@ const btnContainerInfo = createEl(
 // ------ Info
 const info = createEl("img", "info", "", btnContainerInfo);
 info.setAttribute("src", "/assets/img/info.png");
+
 // ----- Button For Accessibility
 const btnContainerVolume = createEl(
   "button",
@@ -170,6 +186,38 @@ const footer = createEl(
   page
 );
 
+// --- Info, Rules
+const infoRulesContainer = createEl(
+  "div",
+  "info-rules-container none",
+  "",
+  page
+);
+// ---- Button Container
+const containerCloseControl = createEl("div", "flex", "", infoRulesContainer);
+// ----- Button For Accessibility
+const btnContainerCloseWindow = createEl(
+  "button",
+  "btn-container btn-container-close-window flex",
+  "",
+  containerCloseControl
+);
+// ------ Close Window Img
+const closeWindow = createEl(
+  "img",
+  "close-window",
+  "",
+  btnContainerCloseWindow
+);
+closeWindow.setAttribute("src", "/assets/img/close-window.png");
+// ---- Rules
+const rules = createEl(
+  "p",
+  "quest-font-size normal-text",
+  "Ciao, son Nik!",
+  infoRulesContainer
+);
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // MEDIA QUERIES
@@ -184,22 +232,25 @@ if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
 // VARIABLES
 
 let counter;
-let gameOver;
+let isGameOver;
 
 let isPlusBtnPressed;
 let isMinusBtnPressed;
 let isPlusBtnBlocked;
 let isMinusBtnBlocked;
 let isPossibilityBlocked;
+let isPositiveQuest;
+let isNegativeQuest;
 
 let possibility;
 let randomIndex;
 let questReward;
-let questCounter;
+let questCountdown;
 
 let totalEncounters;
 let recordEncounters = 0;
 
+// Positive Quests
 const positiveQuests = [
   // 5 Points Quests
   `You eat the best icecream of the entire Cosmo on the planet ParadIce. Move forward in your adventure by 5 light years! 🍧`,
@@ -227,6 +278,7 @@ const positiveQuests = [
   `You discover a peculiar anomaly that creates a quantum link with a distant star. Move INSTANTLY forward by 30 light years! 🌟`,
 ];
 
+// Negative Quests
 const negativeQuests = [
   // 5 Points Quests
   `Oh no, an holographic trap! That ship was a misdirection, you’ve wasted so much fuel... Move backwards by 5 light years! ⛽️`,
@@ -259,21 +311,25 @@ const negativeQuests = [
 // FUNCTIONS
 
 // GAME ENGINE
+// To Initialize The Game
 function initGame() {
-  gameOver = false;
+  isGameOver = false;
   isPlusBtnPressed = false;
   isMinusBtnPressed = false;
   isPlusBtnBlocked = false;
   isMinusBtnBlocked = false;
   isPossibilityBlocked = false;
+  isPositiveQuest = false;
+  isNegativeQuest = false;
 
   possibility = 0;
   randomIndex = 0;
   questReward = 0;
-  questCounter = 0;
+  questCountdown = 0;
 
   counter = 0;
   display.innerHTML = counter;
+  miniDisplay.innerHTML = questCountdown;
 
   totalEncounters = 0;
   title.innerHTML = `enCounters`;
@@ -281,8 +337,9 @@ function initGame() {
 
 initGame();
 
+// To Play The Game
 function playGame() {
-  if (gameOver === false) {
+  if (isGameOver === false) {
     playMedia();
     if (isPlusBtnPressed === true) {
       counter++;
@@ -296,9 +353,11 @@ function playGame() {
     }
     setPlayback();
     setColorsToRed();
+    manageAudioAlarm();
   }
 }
 
+// To Manage The Possibility Of An Encounter
 function manageQuestPossibility() {
   if (isPossibilityBlocked === true) {
     possibility = 1;
@@ -316,16 +375,16 @@ function manageQuestPossibility() {
     display.innerHTML = getRandomQuest(positiveQuests);
     isMinusBtnBlocked = true;
     isPlusBtnBlocked = false;
-    questCounter = questReward;
+    isPositiveQuest = true;
   } else if (possibility >= 91 && possibility <= 100) {
     setFontSize();
     display.innerHTML = getRandomQuest(negativeQuests);
     isPlusBtnBlocked = true;
     isMinusBtnBlocked = false;
-    questCounter = questReward;
+    isNegativeQuest = true;
   }
 
-  setQuestCounter();
+  setQuestCountdown();
 
   if (possibility > 80) {
     totalEncounters++;
@@ -333,6 +392,7 @@ function manageQuestPossibility() {
   }
 }
 
+// To Get A Random Quest From An Array
 function getRandomQuest(questArray) {
   randomIndex = Math.floor(Math.random() * questArray.length);
   getQuestReward();
@@ -341,6 +401,7 @@ function getRandomQuest(questArray) {
   return questArray[randomIndex];
 }
 
+// To Get A Reward Based On A Quest's Position In The Array
 function getQuestReward() {
   if (randomIndex >= 0 && randomIndex <= 6) {
     questReward = 5;
@@ -360,18 +421,39 @@ function getQuestReward() {
   return questReward;
 }
 
-function setQuestCounter() {
-  if (questCounter === 0) {
+// To Set A Countdown To Determine The Duration Of A Quest
+function setQuestCountdown() {
+  questCountdown = questReward;
+
+  if (questCountdown === 0) {
+    questReward = 0;
     isPlusBtnBlocked = false;
     isMinusBtnBlocked = false;
     isPossibilityBlocked = false;
+    isPositiveQuest = false;
+    isNegativeQuest = false;
+    manageMiniDisplay();
   } else {
-    questCounter--;
+    manageMiniDisplay();
+    questCountdown--;
+    questReward--;
     isPossibilityBlocked = true;
   }
 }
 
+// To View The Quest Countdown
+function manageMiniDisplay() {
+  if (isPositiveQuest === true && isNegativeQuest === false) {
+    miniDisplay.innerHTML = `+${questCountdown}`;
+  } else if (isPositiveQuest === false && isNegativeQuest === true) {
+    miniDisplay.innerHTML = `-${questCountdown}`;
+  } else if (isPositiveQuest === false && isNegativeQuest === false) {
+    miniDisplay.innerHTML = questCountdown;
+  }
+}
+
 // GAME OVER
+// To End The Game
 function setGameOver() {
   setFontSize();
   title.innerHTML = `enCounters: ${totalEncounters + 1}`;
@@ -385,10 +467,11 @@ function setGameOver() {
     display.innerHTML =
       "The Dark Army captures you and sells you as a slave on the planet Kragas. You are destined to die in chains. YOU LOST! 💀";
   }
-  gameOver = true;
+  isGameOver = true;
 }
 
 // RESET GAME
+// To Reset The Game To Initial Value
 function resetGame() {
   resetMedia();
   resetFontSize();
@@ -399,18 +482,28 @@ function resetGame() {
 // MEDIA
 // To Play The Audio And The Background Video
 function playMedia() {
-  if (video.paused && audio.paused) {
+  if (isPlusBtnPressed === true || isMinusBtnPressed === true) {
     video.play();
-    audio.play();
+    audioSong.play();
+  }
+}
+
+function manageAudioAlarm() {
+  if (counter < 0) {
+    audioAlarm.play();
+  } else {
+    audioAlarm.pause();
   }
 }
 
 // To Reset And Stop The Audio And The Background Video
 function resetMedia() {
-  video.currentTime = 0;
   video.pause();
-  audio.currentTime = 0;
-  audio.pause();
+  video.currentTime = 0;
+  audioSong.pause();
+  audioSong.currentTime = 0;
+  audioAlarm.pause();
+  audioAlarm.currentTime = 0;
 }
 
 // To Speed Up The Background Video
@@ -440,13 +533,15 @@ function setPlayback() {
 
 // To Mute The Audio
 function muteAudio() {
-  audio.volume = 0;
+  audioAlarm.volume = 0;
+  audioSong.volume = 0;
   volume.setAttribute("src", "/assets/img/volume-off.png");
 }
 
 // To Unmute The Audio
 function unmuteAudio() {
-  audio.volume = 1;
+  audioAlarm.volume = 1;
+  audioSong.volume = 1;
   volume.setAttribute("src", "/assets/img/volume-on.png");
 }
 
@@ -463,7 +558,7 @@ function resetFontSize() {
   display.classList.add("num-font-size");
 }
 
-// RED INTERFACE
+// RED ALARM INTERFACE
 // To Set Color Interface To Red
 function setColorsToRed() {
   if (counter < 0) {
@@ -480,6 +575,8 @@ function setColorsToRed() {
     resetBtn.classList.add("alarm-text", "alarm-border");
     minusBtn.classList.remove("normal-text", "normal-border");
     minusBtn.classList.add("alarm-text", "alarm-border");
+    miniDisplay.classList.remove("normal-text");
+    miniDisplay.classList.add("alarm-text");
     info.classList.add("alarm-icon");
     volume.classList.add("alarm-icon");
     github.classList.add("alarm-icon");
@@ -514,6 +611,8 @@ function resetColors() {
   resetBtn.classList.add("normal-text", "normal-border");
   minusBtn.classList.remove("alarm-text", "alarm-border");
   minusBtn.classList.add("normal-text", "normal-border");
+  miniDisplay.classList.remove("alarm-text");
+  miniDisplay.classList.add("normal-text");
   info.classList.remove("alarm-icon");
   volume.classList.remove("alarm-icon");
   github.classList.remove("alarm-icon");
@@ -533,7 +632,7 @@ function resetColors() {
 ////////////////////////////////////////////////////////////////////////////////
 
 // EVENTS
-
+// Plus Btn
 plusBtn.addEventListener("click", () => {
   if (isPlusBtnBlocked === false) {
     isPlusBtnPressed = true;
@@ -542,10 +641,12 @@ plusBtn.addEventListener("click", () => {
   }
 });
 
+// Reset Btn
 resetBtn.addEventListener("click", () => {
   resetGame();
 });
 
+// Minus Btn
 minusBtn.addEventListener("click", () => {
   if (isMinusBtnBlocked === false) {
     isMinusBtnPressed = true;
@@ -554,10 +655,23 @@ minusBtn.addEventListener("click", () => {
   }
 });
 
+// Info Btn
+btnContainerInfo.addEventListener("click", () => {
+  infoRulesContainer.classList.remove("none");
+  infoRulesContainer.classList.add("flex", "flex-cc-col");
+});
+
+// Close Window
+btnContainerCloseWindow.addEventListener("click", () => {
+  infoRulesContainer.classList.remove("flex", "flex-cc-col");
+  infoRulesContainer.classList.add("none");
+});
+
+// Volume Btn
 btnContainerVolume.addEventListener("click", () => {
-  if (audio.volume === 1) {
+  if (audioSong.volume === 1) {
     muteAudio();
-  } else if (audio.volume === 0) {
+  } else if (audioSong.volume === 0) {
     unmuteAudio();
   }
 });
