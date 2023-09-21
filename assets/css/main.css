@@ -243,6 +243,25 @@ footer {
 /*////////////////////////////////////////////////////////////////////////////*/
 
 /* MEDIA QUERIES */
+/* For Mobile Devices */
+@media (max-width: 500px) {
+  .mini-display {
+    right: -8%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 680px) {
+  .mini-display {
+    right: -3%;
+  }
+}
+
+@media (min-width: 681px) and (max-width: 738px) {
+  .mini-display {
+    right: -1%;
+  }
+}
+
 /* For Landscape Mode On Mobile */
 @media all and (max-width: 1100px) and (orientation: landscape) {
   .page {
