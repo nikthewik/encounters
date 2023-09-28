@@ -240,6 +240,14 @@ footer {
   cursor: pointer;
 }
 
+.credits-container {
+  margin-top: 10rem;
+}
+
+.icons-8 {
+  margin-left: 0.5rem;
+}
+
 /*////////////////////////////////////////////////////////////////////////////*/
 
 /* MEDIA QUERIES */
