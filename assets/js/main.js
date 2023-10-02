@@ -166,6 +166,7 @@ function manageMiniDisplay() {
 function setGameOver() {
   setFontSize();
   elem.title.innerHTML = `enCounters: ${totalEncounters + 1}`;
+  elem.miniDisplay.innerHTML = "0";
   if (counter > 0) {
     elem.display.innerHTML = `After ${totalEncounters} encounters, life brought you here for the best one: you find yourself thanks to an existence full of experiences. YOU WIN! 🎉`;
     if (recordEncounters < totalEncounters + 1) {

@@ -240,8 +240,13 @@ footer {
   cursor: pointer;
 }
 
+.info-rules {
+  width: 72%;
+  text-align: center;
+}
+
 .credits-container {
-  margin-top: 10rem;
+  margin-top: 3rem;
 }
 
 .icons-8 {

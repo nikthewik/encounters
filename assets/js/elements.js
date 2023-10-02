@@ -17,13 +17,13 @@ function createEl(htmlTag, cssClass, text, parentEl) {
 export let colorNotch = document.querySelector('meta[name="theme-color"]');
 
 // - Body
-export const body = document.querySelector("body");
+const body = document.querySelector("body");
 
 ////////////////////////////////////////////////////////////////////////////////
 
 // ELEMENTS CREATED BY "createEl" FUNCTION
 // -- Page
-export const page = createEl("div", "page flex flex-cc-col", "", body);
+const page = createEl("div", "page flex flex-cc-col", "", body);
 
 // --- Video
 export const video = createEl("video", "", "", page);
@@ -32,11 +32,11 @@ video.setAttribute("muted", "true");
 video.setAttribute("playsinline", "true");
 video.setAttribute("poster", "/assets/img/poster.jpg");
 // ---- Source Webm
-export const sourceWebm = createEl("source", "", "", video);
+const sourceWebm = createEl("source", "", "", video);
 sourceWebm.setAttribute("type", "video/webm");
 sourceWebm.setAttribute("src", "/assets/media/bg-video.webm");
 // ---- Source Mp4 Fallback
-export const sourceMp4 = createEl("source", "", "", video);
+const sourceMp4 = createEl("source", "", "", video);
 sourceMp4.setAttribute("type", "video/mp4");
 sourceMp4.setAttribute("src", "/assets/media/bg-video.mp4");
 
@@ -80,12 +80,7 @@ export const display = createEl(
   container
 );
 // ---- Buttons
-export const buttons = createEl(
-  "div",
-  "buttons flex flex-cc-col",
-  "",
-  container
-);
+const buttons = createEl("div", "buttons flex flex-cc-col", "", container);
 // ----- Plus Btn
 export const plusBtn = createEl(
   "button",
@@ -117,10 +112,10 @@ export const miniDisplay = createEl(
 );
 
 // --- Info Panel
-export const infoPanel = createEl("div", "info-panel flex", "", page);
+const infoPanel = createEl("div", "info-panel flex", "", page);
 
 // ---- Controls
-export const controls = createEl("div", "controls flex flex-cc", "", infoPanel);
+const controls = createEl("div", "controls flex flex-cc", "", infoPanel);
 
 // ----- Button For Accessibility
 export const btnContainerInfo = createEl(
@@ -147,10 +142,10 @@ volume.setAttribute("src", "/assets/img/volume-on.png");
 volume.setAttribute("alt", "Volume icon");
 
 // ---- Social
-export const social = createEl("div", "social flex flex-cc", "", infoPanel);
+const social = createEl("div", "social flex flex-cc", "", infoPanel);
 
 // ----- Link
-export const link = createEl("a", "flex flex-cc", "", social);
+const link = createEl("a", "flex flex-cc", "", social);
 link.setAttribute("href", "https://github.com/nikthewik");
 link.setAttribute("target", "_blank");
 // ------ GitHub
@@ -166,7 +161,7 @@ export const cap = createEl(
 );
 
 // ---- Record Container
-export const recordContainer = createEl("div", "flex flex-cc", "", infoPanel);
+const recordContainer = createEl("div", "flex flex-cc", "", infoPanel);
 
 // ----- Record Image
 export const recordImg = createEl("img", "record-img", "", recordContainer);
@@ -204,12 +199,7 @@ export const infoRulesContainer = createEl(
 );
 
 // ---- Button Container
-export const containerCloseControl = createEl(
-  "div",
-  "flex",
-  "",
-  infoRulesContainer
-);
+const containerCloseControl = createEl("div", "flex", "", infoRulesContainer);
 // ----- Button For Accessibility
 export const btnContainerCloseWindow = createEl(
   "button",
@@ -218,7 +208,7 @@ export const btnContainerCloseWindow = createEl(
   containerCloseControl
 );
 // ------ Close Window Img
-export const closeWindow = createEl(
+const closeWindow = createEl(
   "img",
   "close-window",
   "",
@@ -227,28 +217,32 @@ export const closeWindow = createEl(
 closeWindow.setAttribute("src", "/assets/img/close-window.png");
 
 // ---- Rules
-export const rules = createEl(
+const rules = createEl(
   "p",
-  "quest-font-size normal-text",
-  "Ciao, son Nik!",
+  "info-rules quest-font-size normal-text",
+  `Hello, space traveler! The whole Universe is waiting for you!
+  Take everything you need and go on an adventure!
+  Your goal is to get to 100, trying to have as many encounters as possible.
+  If you unfortunately get to -100, bad things will happen and you won't be able
+  to save your record of encounters. Good luck and always live to the fullest!`,
   infoRulesContainer
 );
 // ---- Container Credits
-export const creditsContainer = createEl(
+const creditsContainer = createEl(
   "div",
   "credits-container flex",
   "",
   infoRulesContainer
 );
 // ----- Icons Credits
-export const iconsCredits = createEl(
+const iconsCredits = createEl(
   "p",
   "copyright-font-size normal-text",
   "Icons By",
   creditsContainer
 );
 // ----- Link To Icons8
-export const icons8 = createEl(
+const icons8 = createEl(
   "a",
   "icons-8 copyright-font-size normal-text",
   "icons8.com.",
