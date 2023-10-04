@@ -40,7 +40,7 @@ export const negativeQuests = [
   `A gambling karaoke tempts you, but you lose miserably and you have to pay in fuel. Move BACK by 5 light years! 🎤`,
   // 7 Points Quests
   `You casually land on Kragas, a planet known to be a den of criminals. It won’t be easy to leave. Move BACK by 7 light years! 🦹🏻‍♂️`,
-  `You see a Chronophagus, a huge space dragon who devours time from planets. Hurry up and move BACK by 7 light years to run away! 🏃🏻‍♂️`,
+  `You see a Chronophagus, a huge space dragon who devours time from planets. Hurry up and move BACK by 7 light years to run away! 🐲`,
   `You meet Gary, the Goo: "Come here! *blorb* You will become nourishment for my jelly! *slurp*". Move BACK by 7 light years! 🧪`,
   `You meet Djecko, Snake Eyes: "Do you want back the keys of your spaceship? Eheheh it's 3000 bitcoins.". Move BACK by 7 light years! 🔑`,
   `You meet a henchman of the Dark Army: "Give up, I’ll take you to my boss.". To escape you have to go BACK by 7 light years! 🕴🏻`,
