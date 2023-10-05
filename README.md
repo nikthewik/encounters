@@ -12,6 +12,8 @@ enCounters is a **space-themed mini game** that combines the dynamics of a **cou
   - [Technologies used](#technologies-used)
   - [Link](#link)
 - [My process](#my-process)
+  - [Idea](#idea)
+  - [Development](#development)
 - [Soundtrack](#soundtrack)
 - [Author](#author)
 - [License](#license)
@@ -21,7 +23,7 @@ enCounters is a **space-themed mini game** that combines the dynamics of a **cou
 
 ### The assignment
 
-Creating a fully responsive counter, equipped with two +1/-1 buttons to increase or decrease the counter value.
+Creating a fully responsive counter, equipped with two +/- buttons to increase or decrease the counter value.
 
 Another requirement is to use only JavaScript (no HTML tags in the body, no library or framework) for element creation and counter display management.
 
@@ -43,12 +45,25 @@ All additional features deemed necessary are allowed.
 
 ## My process
 
+### Idea
+
 I decided to create a space-themed mini game based on a counter and the game of the goose, driven by my passion for video games, the necessity to sharpen my skills in JavaScript, and the desire to make this project useful for others (and for me as well, as a portfolio).
+
+The game is very simple. Every time the + button or the - button is pressed, there is a certain chance that an event will occur:
+
+- The counter increases or decreases by 1, depending on the button pressed;
+- A positive quest occurs, advancing the player by X light years;
+- A negative quest occurs, causing the player to regress by X light years.
+
+When the counter reaches 100, the player wins. If the counter reaches -100, he loses.
+
+### Development
 
 The first step was to write a JS function capable of generating elements based on specific arguments, automating the process and saving me from repetitive tasks.
 
 As I created site elements, I took care of their style with CSS, using a **mobile-first** approach.
-Finally, with JS, I focussed on how the game's logic works and the various additional features.
+
+Finally, with JavaScript, I focussed on how the game's logic should work and on the various additional features.
 
 After realising that I wrote 650+ lines of code, I thought it was appropriate to split the `main.js` file into three separate **modules**: `main.js`, `elements.js`, and `quests.js`. In this way the code is more orderly and maintainable.
 
