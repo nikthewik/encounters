@@ -25,7 +25,7 @@ enCounters is a **space-themed mini game** that combines the dynamics of a **cou
 
 Creating a fully responsive counter, equipped with two +/- buttons to increase or decrease the counter value.
 
-Another requirement is to use only JavaScript (no HTML tags in the body, no library or framework) for element creation and counter display management.
+Another requirement is to use only JavaScript (no HTML tags in the body, no Jquery or framework) for element creation and counter display management.
 
 All additional features deemed necessary are allowed.
 
